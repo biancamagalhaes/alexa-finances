@@ -19,7 +19,7 @@
         "base_url": "http://127.0.0.1:3000",
         "instrument_id": "PREENCHA_COM_O_ID_DE_GET_INSTRUMENTS",
         "operation_key": "teste-insomnia-001",
-        "api_bearer_token": "yIe-e-j2szzTSoa7wwDVxIQTAU6gdbx5n8edGlUhGA4"
+        "api_bearer_token": "PREENCHA_COM_O_API_BEARER_TOKEN"
       },
       "dataPropertyOrder": null,
       "color": null,

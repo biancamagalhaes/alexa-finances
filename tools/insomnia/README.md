@@ -3,9 +3,11 @@
 Importe `alexa-finances.insomnia.json` no Insomnia em **Create > Import > From File**.
 
 Com a API local em execução, a variável `base_url` já aponta para
-`http://127.0.0.1:3000`. Copie o valor de `API_BEARER_TOKEN` do arquivo local
-`apps/api/.env` para a variável `api_bearer_token` antes de chamar qualquer
-request de carteira ou Alexa. Apenas `Health` não exige autenticação.
+`http://127.0.0.1:3000`. Copie o valor de `API_BEARER_TOKEN` para a variável
+`api_bearer_token` antes de chamar qualquer request de carteira ou Alexa. Use
+apenas um método de autenticação: a coleção já envia o header `Authorization`,
+então deixe a aba **Auth** como **No Auth**. Apenas `Health` não exige
+autenticação.
 
 Para testar posição inicial, compra, venda ou provento, execute primeiro
 **Carteira > Listar ativos**, copie o `id` de um ativo e defina-o na variável
