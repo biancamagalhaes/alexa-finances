@@ -42,5 +42,6 @@ CONFIRM_DEMO_RESET=clear-demo-data npm run reset:demo --workspace=@alexa-finance
 O arquivo `discloud.config` publica a API em `https://alexa-finances.discloud.app`,
 na porta `8080`. Antes do deploy, registre o subdomínio `alexa-finances` na
 Discloud e configure por lá as variáveis de ambiente que estão no
-`apps/api/.env.example`. O build executa `npm ci` antes de iniciar a API.
-Nunca envie o arquivo `.env`.
+`apps/api/.env.example`. O iniciador de produção instala as dependências
+travadas caso a plataforma ainda não as tenha preparado. Nunca envie o arquivo
+`.env`.
