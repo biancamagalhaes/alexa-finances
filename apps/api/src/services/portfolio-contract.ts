@@ -17,7 +17,7 @@ export interface PortfolioView {
   asOfLabel: string;
   resultState: ResultState;
   resultLabel: string;
-  allocation: Array<{ label: string; percentageLabel: string }>;
+  allocation: Array<{ label: string; percentage: number; percentageLabel: string }>;
   positions: Array<{
     symbol: string;
     classLabel: string;
@@ -149,6 +149,7 @@ export function buildPortfolioContract(input: PortfolioContractInput): Portfolio
     .sort(([left], [right]) => left.localeCompare(right, 'pt-BR'))
     .map(([label, value]) => ({
       label,
+      percentage: percentage(value, portfolio.totals.marketValueCents),
       percentageLabel: percentageLabel(value, portfolio.totals.marketValueCents),
     }));
   const largestAllocationLabel = [...allocationValues.entries()]
@@ -343,8 +344,12 @@ function formatCurrency(cents: bigint, withSign = false): string {
 }
 
 function percentageLabel(part: bigint, total: bigint): string {
-  if (total <= 0n) return '0%';
-  return `${(part * 100n + total / 2n) / total}%`;
+  return `${percentage(part, total)}%`;
+}
+
+function percentage(part: bigint, total: bigint): number {
+  if (total <= 0n) return 0;
+  return Number((part * 100n + total / 2n) / total);
 }
 
 function compareBigInt(left: bigint, right: bigint): number {

@@ -13,6 +13,7 @@ export interface PortfolioView {
   resultLabel: string;
   allocation: Array<{
     label: string;
+    percentage: number;
     percentageLabel: string;
   }>;
   positions: Array<{

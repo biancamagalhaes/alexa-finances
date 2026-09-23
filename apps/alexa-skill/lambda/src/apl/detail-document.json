@@ -1,7 +1,7 @@
 {
   "type": "APL",
   "version": "2024.3",
-  "theme": "dark",
+  "theme": "light",
   "mainTemplate": {
     "parameters": ["portfolio"],
     "items": [
@@ -12,158 +12,144 @@
         "height": "100vh",
         "paddingLeft": "5vw",
         "paddingRight": "5vw",
-        "paddingTop": "4vh",
-        "paddingBottom": "3vh",
-        "backgroundColor": "#101827",
+        "paddingTop": "5vh",
+        "paddingBottom": "5vh",
+        "backgroundColor": "#F4EEE5",
         "bind": [{ "name": "showValues", "value": false }],
         "items": [
           {
             "type": "Container",
-            "direction": "row",
-            "justifyContent": "spaceBetween",
-            "items": [
-              {
-                "type": "Text",
-                "text": "Minha Carteira",
-                "style": "textStylePrimary1",
-                "color": "#F8FAFC"
-              },
-              {
-                "type": "Text",
-                "text": "Atualizado ${portfolio.asOfLabel}",
-                "style": "textStyleSecondary",
-                "color": "#94A3B8"
-              }
-            ]
-          },
-          {
-            "type": "Container",
-            "direction": "row",
-            "spacing": "12dp",
-            "paddingTop": "20dp",
-            "items": [
-              {
-                "type": "TouchWrapper",
-                "onPress": [{ "type": "SendEvent", "arguments": ["select-profile", "bianca"] }],
-                "item": { "type": "Text", "text": "Bianca", "paddingLeft": "18dp", "paddingRight": "18dp", "paddingTop": "10dp", "paddingBottom": "10dp", "borderRadius": "20dp", "backgroundColor": "${portfolio.profile.id == 'bianca' ? '#2563EB' : '#1E293B'}", "color": "#F8FAFC" }
-              },
-              {
-                "type": "TouchWrapper",
-                "onPress": [{ "type": "SendEvent", "arguments": ["select-profile", "sergio"] }],
-                "item": { "type": "Text", "text": "Sergio", "paddingLeft": "18dp", "paddingRight": "18dp", "paddingTop": "10dp", "paddingBottom": "10dp", "borderRadius": "20dp", "backgroundColor": "${portfolio.profile.id == 'sergio' ? '#2563EB' : '#1E293B'}", "color": "#F8FAFC" }
-              },
-              {
-                "type": "TouchWrapper",
-                "onPress": [{ "type": "SendEvent", "arguments": ["select-profile", "family"] }],
-                "item": { "type": "Text", "text": "Família", "paddingLeft": "18dp", "paddingRight": "18dp", "paddingTop": "10dp", "paddingBottom": "10dp", "borderRadius": "20dp", "backgroundColor": "${portfolio.profile.id == 'family' ? '#2563EB' : '#1E293B'}", "color": "#F8FAFC" }
-              }
-            ]
-          },
-          {
-            "type": "Container",
-            "direction": "row",
-            "justifyContent": "spaceBetween",
-            "paddingTop": "32dp",
+            "width": "100%",
+            "height": "100%",
+            "paddingLeft": "4vw",
+            "paddingRight": "4vw",
+            "paddingTop": "3vh",
+            "paddingBottom": "3vh",
+            "backgroundColor": "#10243D",
+            "borderRadius": "32dp",
             "items": [
               {
                 "type": "Container",
+                "direction": "row",
+                "justifyContent": "spaceBetween",
                 "items": [
-                  { "type": "Text", "text": "Patrimônio", "style": "textStyleSecondary", "color": "#94A3B8" },
-                  { "type": "Text", "text": "${showValues ? portfolio.summary.patrimony : portfolio.summary.maskedPatrimony}", "style": "textStylePrimary2", "color": "#F8FAFC" }
-                ]
-              },
-              {
-                "type": "TouchWrapper",
-                "onPress": [{ "type": "SetValue", "componentId": "screen", "property": "showValues", "value": "${!showValues}" }],
-                "item": { "type": "Text", "text": "${showValues ? '◉ Ocultar' : '◉ Mostrar'}", "paddingLeft": "18dp", "paddingRight": "18dp", "paddingTop": "12dp", "paddingBottom": "12dp", "borderRadius": "20dp", "backgroundColor": "#1E293B", "color": "#E2E8F0" }
-              }
-            ]
-          },
-          {
-            "type": "Container",
-            "direction": "row",
-            "spacing": "20dp",
-            "paddingTop": "28dp",
-            "items": [
-              {
-                "type": "Container",
-                "width": "30%",
-                "backgroundColor": "#172033",
-                "padding": "18dp",
-                "borderRadius": "14dp",
-                "items": [
-                  { "type": "Text", "text": "Resultado no mês", "style": "textStyleSecondary", "color": "#94A3B8" },
-                  { "type": "Text", "text": "${showValues ? portfolio.summary.monthlyResult : portfolio.summary.maskedMonthlyResult}", "style": "textStylePrimary2", "color": "#F8FAFC" },
-                  { "type": "Text", "text": "${portfolio.resultLabel}", "style": "textStyleSecondary", "color": "#94A3B8" }
+                  { "type": "Text", "text": "Minha Carteira", "style": "textStylePrimary1", "fontSize": "44dp", "fontWeight": "700", "color": "#F8FAFC" },
+                  { "type": "Text", "text": "${portfolio.asOfLabel}", "style": "textStyleSecondary", "fontSize": "18dp", "color": "#AEBFD5" }
                 ]
               },
               {
                 "type": "Container",
-                "width": "30%",
-                "backgroundColor": "#172033",
-                "padding": "18dp",
-                "borderRadius": "14dp",
+                "direction": "row",
+                "spacing": "14dp",
+                "paddingTop": "18dp",
                 "items": [
-                  { "type": "Text", "text": "Aportado", "style": "textStyleSecondary", "color": "#94A3B8" },
-                  { "type": "Text", "text": "${showValues ? portfolio.summary.contributions : portfolio.summary.maskedContributions}", "style": "textStylePrimary2", "color": "#F8FAFC" }
+                  {
+                    "type": "TouchWrapper",
+                    "onPress": [{ "type": "SendEvent", "arguments": ["select-profile", "bianca"] }],
+                    "item": { "type": "Text", "text": "Bianca", "fontSize": "21dp", "fontWeight": "700", "paddingLeft": "26dp", "paddingRight": "26dp", "paddingTop": "13dp", "paddingBottom": "13dp", "borderRadius": "28dp", "backgroundColor": "${portfolio.profile.id == 'bianca' ? '#0F9EAA' : '#34445C'}", "color": "#F8FAFC" }
+                  },
+                  {
+                    "type": "TouchWrapper",
+                    "onPress": [{ "type": "SendEvent", "arguments": ["select-profile", "sergio"] }],
+                    "item": { "type": "Text", "text": "Sergio", "fontSize": "21dp", "fontWeight": "700", "paddingLeft": "26dp", "paddingRight": "26dp", "paddingTop": "13dp", "paddingBottom": "13dp", "borderRadius": "28dp", "backgroundColor": "${portfolio.profile.id == 'sergio' ? '#0F9EAA' : '#34445C'}", "color": "#F8FAFC" }
+                  },
+                  {
+                    "type": "TouchWrapper",
+                    "onPress": [{ "type": "SendEvent", "arguments": ["select-profile", "family"] }],
+                    "item": { "type": "Text", "text": "Família", "fontSize": "21dp", "fontWeight": "700", "paddingLeft": "26dp", "paddingRight": "26dp", "paddingTop": "13dp", "paddingBottom": "13dp", "borderRadius": "28dp", "backgroundColor": "${portfolio.profile.id == 'family' ? '#0F9EAA' : '#34445C'}", "color": "#F8FAFC" }
+                  }
                 ]
               },
               {
                 "type": "Container",
-                "width": "30%",
-                "backgroundColor": "#172033",
-                "padding": "18dp",
-                "borderRadius": "14dp",
+                "direction": "row",
+                "spacing": "4vw",
+                "paddingTop": "28dp",
                 "items": [
-                  { "type": "Text", "text": "Proventos", "style": "textStyleSecondary", "color": "#94A3B8" },
-                  { "type": "Text", "text": "${showValues ? portfolio.summary.income : portfolio.summary.maskedIncome}", "style": "textStylePrimary2", "color": "#F8FAFC" }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "Container",
-            "direction": "row",
-            "spacing": "28dp",
-            "paddingTop": "30dp",
-            "items": [
-              {
-                "type": "Container",
-                "width": "42%",
-                "items": [
-                  { "type": "Text", "text": "Distribuição", "style": "textStylePrimary2", "color": "#F8FAFC" },
                   {
                     "type": "Container",
-                    "data": "${portfolio.allocation}",
+                    "width": "57%",
                     "items": [
-                      { "type": "Text", "text": "${data.label} · ${data.percentageLabel}", "paddingTop": "10dp", "style": "textStylePrimary3", "color": "#CBD5E1" }
+                      { "type": "Text", "text": "Patrimônio", "style": "textStyleSecondary", "fontSize": "23dp", "color": "#BDCADB" },
+                      { "type": "Text", "text": "${showValues ? portfolio.summary.patrimony : portfolio.summary.maskedPatrimony}", "fontSize": "53dp", "fontWeight": "700", "paddingTop": "5dp", "color": "#FFFFFF" },
+                      { "type": "Text", "text": "Aportado ${showValues ? portfolio.summary.contributions : portfolio.summary.maskedContributions}", "fontSize": "23dp", "paddingTop": "4dp", "color": "#BDCADB" }
+                    ]
+                  },
+                  {
+                    "type": "Container",
+                    "width": "39%",
+                    "padding": "22dp",
+                    "borderRadius": "24dp",
+                    "backgroundColor": "${portfolio.resultState == 'positive' ? '#0A4C46' : portfolio.resultState == 'negative' ? '#5E2733' : '#34445C'}",
+                    "items": [
+                      { "type": "Text", "text": "Resultado no mês", "fontSize": "22dp", "color": "#D7E6E6" },
+                      { "type": "Text", "text": "${showValues ? portfolio.summary.monthlyResult : portfolio.summary.maskedMonthlyResult}", "fontSize": "39dp", "fontWeight": "700", "paddingTop": "6dp", "color": "${portfolio.resultState == 'positive' ? '#63E6BE' : portfolio.resultState == 'negative' ? '#FDA4AF' : '#F8FAFC'}" },
+                      { "type": "Text", "text": "${portfolio.resultLabel}", "fontSize": "18dp", "paddingTop": "4dp", "color": "#D7E6E6" }
                     ]
                   }
                 ]
               },
               {
                 "type": "Container",
-                "width": "54%",
+                "direction": "row",
+                "width": "100%",
+                "height": "18dp",
+                "paddingTop": "30dp",
+                "data": "${portfolio.allocation}",
                 "items": [
-                  { "type": "Text", "text": "Posições", "style": "textStylePrimary2", "color": "#F8FAFC" },
+                  { "type": "Container", "width": "${data.percentage}%", "height": "18dp", "backgroundColor": "${data.label == 'Ações' ? '#31B8E9' : data.label == 'FIIs' ? '#8BB5E8' : '#E6D2A8'}" }
+                ]
+              },
+              {
+                "type": "Container",
+                "direction": "row",
+                "width": "100%",
+                "paddingTop": "17dp",
+                "data": "${portfolio.allocation}",
+                "items": [
                   {
-                    "type": "Sequence",
-                    "height": "28vh",
-                    "data": "${portfolio.positions}",
-                    "numbered": false,
+                    "type": "Container",
+                    "width": "${data.percentage}%",
                     "items": [
-                      {
-                        "type": "Container",
-                        "direction": "row",
-                        "justifyContent": "spaceBetween",
-                        "paddingTop": "10dp",
-                        "paddingBottom": "10dp",
-                        "items": [
-                          { "type": "Text", "text": "${data.symbol} · ${data.classLabel}", "color": "#E2E8F0", "style": "textStylePrimary3" },
-                          { "type": "Text", "text": "${showValues ? data.value : data.maskedValue}", "color": "#E2E8F0", "style": "textStylePrimary3" }
-                        ]
-                      }
+                      { "type": "Text", "text": "${data.label}", "fontSize": "20dp", "color": "#BDCADB" },
+                      { "type": "Text", "text": "${data.percentageLabel}", "fontSize": "30dp", "fontWeight": "700", "color": "#FFFFFF" }
                     ]
+                  }
+                ]
+              },
+              {
+                "type": "Container",
+                "width": "100%",
+                "height": "1dp",
+                "paddingTop": "18dp",
+                "backgroundColor": "#3A4C63"
+              },
+              {
+                "type": "Container",
+                "direction": "row",
+                "justifyContent": "spaceBetween",
+                "paddingTop": "18dp",
+                "items": [
+                  {
+                    "type": "Container",
+                    "width": "31%",
+                    "items": [
+                      { "type": "Text", "text": "Proventos do mês", "fontSize": "19dp", "color": "#BDCADB" },
+                      { "type": "Text", "text": "${showValues ? portfolio.summary.income : portfolio.summary.maskedIncome}", "fontSize": "30dp", "fontWeight": "700", "color": "#FFFFFF" }
+                    ]
+                  },
+                  {
+                    "type": "Container",
+                    "width": "48%",
+                    "data": "${portfolio.positions}",
+                    "items": [
+                      { "type": "Text", "text": "${data.symbol} · ${data.classLabel}    ${showValues ? data.value : data.maskedValue}", "fontSize": "20dp", "color": "#DCE6F3" }
+                    ]
+                  },
+                  {
+                    "type": "TouchWrapper",
+                    "onPress": [{ "type": "SetValue", "componentId": "screen", "property": "showValues", "value": "${!showValues}" }],
+                    "item": { "type": "Text", "text": "${showValues ? '◉ Ocultar valores' : '◉ Mostrar valores'}", "fontSize": "19dp", "fontWeight": "700", "paddingLeft": "21dp", "paddingRight": "21dp", "paddingTop": "13dp", "paddingBottom": "13dp", "borderRadius": "25dp", "backgroundColor": "#34445C", "color": "#FFFFFF" }
                   }
                 ]
               }
