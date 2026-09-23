@@ -30,7 +30,10 @@
         "paddingTop": "18dp",
         "paddingBottom": "18dp",
         "backgroundColor": "#101827",
-        "bind": [{ "name": "showValues", "value": false }],
+        "bind": [
+          { "name": "showValues", "value": false },
+          { "name": "portfolio", "value": "${DS_Portfolio ? DS_Portfolio : payload.portfolio}" }
+        ],
         "items": [
           {
             "type": "Container",
@@ -51,9 +54,9 @@
             "spacing": "8dp",
             "paddingTop": "12dp",
             "items": [
-              { "type": "TouchWrapper", "onPress": [{ "type": "SendEvent", "arguments": ["select-profile", "bianca"] }], "item": { "type": "Text", "text": "Bianca", "paddingLeft": "10dp", "paddingRight": "10dp", "paddingTop": "6dp", "paddingBottom": "6dp", "borderRadius": "14dp", "backgroundColor": "${DS_Portfolio.profile.id == 'bianca' ? '#2563EB' : '#1E293B'}", "color": "#F8FAFC" } },
-              { "type": "TouchWrapper", "onPress": [{ "type": "SendEvent", "arguments": ["select-profile", "sergio"] }], "item": { "type": "Text", "text": "Sergio", "paddingLeft": "10dp", "paddingRight": "10dp", "paddingTop": "6dp", "paddingBottom": "6dp", "borderRadius": "14dp", "backgroundColor": "${DS_Portfolio.profile.id == 'sergio' ? '#2563EB' : '#1E293B'}", "color": "#F8FAFC" } },
-              { "type": "TouchWrapper", "onPress": [{ "type": "SendEvent", "arguments": ["select-profile", "family"] }], "item": { "type": "Text", "text": "Família", "paddingLeft": "10dp", "paddingRight": "10dp", "paddingTop": "6dp", "paddingBottom": "6dp", "borderRadius": "14dp", "backgroundColor": "${DS_Portfolio.profile.id == 'family' ? '#2563EB' : '#1E293B'}", "color": "#F8FAFC" } }
+              { "type": "TouchWrapper", "onPress": [{ "type": "SendEvent", "arguments": ["select-profile", "bianca"], "flags": { "interactionMode": "STANDARD" } }], "item": { "type": "Text", "text": "Bianca", "paddingLeft": "10dp", "paddingRight": "10dp", "paddingTop": "6dp", "paddingBottom": "6dp", "backgroundColor": "${portfolio.profile.id == 'bianca' ? '#2563EB' : '#1E293B'}", "color": "#F8FAFC" } },
+              { "type": "TouchWrapper", "onPress": [{ "type": "SendEvent", "arguments": ["select-profile", "sergio"], "flags": { "interactionMode": "STANDARD" } }], "item": { "type": "Text", "text": "Sergio", "paddingLeft": "10dp", "paddingRight": "10dp", "paddingTop": "6dp", "paddingBottom": "6dp", "backgroundColor": "${portfolio.profile.id == 'sergio' ? '#2563EB' : '#1E293B'}", "color": "#F8FAFC" } },
+              { "type": "TouchWrapper", "onPress": [{ "type": "SendEvent", "arguments": ["select-profile", "family"], "flags": { "interactionMode": "STANDARD" } }], "item": { "type": "Text", "text": "Família", "paddingLeft": "10dp", "paddingRight": "10dp", "paddingTop": "6dp", "paddingBottom": "6dp", "backgroundColor": "${portfolio.profile.id == 'family' ? '#2563EB' : '#1E293B'}", "color": "#F8FAFC" } }
             ]
           },
           {
@@ -61,8 +64,8 @@
             "paddingTop": "20dp",
             "items": [
               { "type": "Text", "text": "Patrimônio", "style": "textStyleSecondary", "color": "#94A3B8" },
-              { "type": "Text", "text": "${showValues ? DS_Portfolio.summary.patrimony : DS_Portfolio.summary.maskedPatrimony}", "style": "textStylePrimary1", "color": "#F8FAFC" },
-              { "type": "Text", "text": "${DS_Portfolio.resultLabel}", "style": "textStyleSecondary", "color": "#94A3B8" }
+              { "type": "Text", "text": "${showValues ? portfolio.summary.patrimony : portfolio.summary.maskedPatrimony}", "style": "textStylePrimary1", "color": "#F8FAFC" },
+              { "type": "Text", "text": "${portfolio.asOfLabel}", "style": "textStyleSecondary", "color": "#94A3B8" }
             ]
           },
           {
@@ -71,15 +74,15 @@
             "spacing": "12dp",
             "paddingTop": "16dp",
             "items": [
-              { "type": "Container", "width": "50%", "backgroundColor": "#172033", "padding": "12dp", "borderRadius": "12dp", "items": [{ "type": "Text", "text": "Resultado no mês", "style": "textStyleSecondary", "color": "#94A3B8" }, { "type": "Text", "text": "${showValues ? DS_Portfolio.summary.monthlyResult : DS_Portfolio.summary.maskedMonthlyResult}", "style": "textStylePrimary3", "color": "#F8FAFC" }] },
-              { "type": "Container", "width": "50%", "backgroundColor": "#172033", "padding": "12dp", "borderRadius": "12dp", "items": [{ "type": "Text", "text": "Proventos", "style": "textStyleSecondary", "color": "#94A3B8" }, { "type": "Text", "text": "${showValues ? DS_Portfolio.summary.income : DS_Portfolio.summary.maskedIncome}", "style": "textStylePrimary3", "color": "#F8FAFC" }] }
+              { "type": "Container", "width": "50%", "backgroundColor": "#172033", "padding": "12dp", "borderRadius": "12dp", "items": [{ "type": "Text", "text": "Resultado no mês", "style": "textStyleSecondary", "color": "#94A3B8" }, { "type": "Text", "text": "${showValues ? portfolio.summary.monthlyResult : portfolio.summary.maskedMonthlyResult}", "style": "textStylePrimary3", "color": "#F8FAFC" }] },
+              { "type": "Container", "width": "50%", "backgroundColor": "#172033", "padding": "12dp", "borderRadius": "12dp", "items": [{ "type": "Text", "text": "Proventos", "style": "textStyleSecondary", "color": "#94A3B8" }, { "type": "Text", "text": "${showValues ? portfolio.summary.income : portfolio.summary.maskedIncome}", "style": "textStylePrimary3", "color": "#F8FAFC" }] }
             ]
           },
           {
             "type": "TouchWrapper",
             "paddingTop": "16dp",
-            "onPress": [{ "type": "SendEvent", "arguments": ["show-details", "${DS_Portfolio.profile.id}"] }],
-            "item": { "type": "Text", "text": "Ver detalhes ›", "color": "#93C5FD", "style": "textStylePrimary3" }
+            "onPress": [{ "type": "SendEvent", "arguments": ["show-details", "${portfolio.profile.id}"], "flags": { "interactionMode": "STANDARD" } }],
+            "item": { "type": "Text", "text": "Abrir painel completo ›", "color": "#93C5FD", "style": "textStylePrimary3" }
           }
         ]
       }

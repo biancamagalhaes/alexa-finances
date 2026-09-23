@@ -48,7 +48,8 @@ test('touch navigation re-renders views with values masked by default', async ()
     readFile(join(__dirname, '../lambda/src/handlers/portfolio-handlers.ts'), 'utf8')
   ]);
 
-  assert.match(widget, /"bind": \[\{ "name": "showValues", "value": false \}\]/);
+  assert.match(widget, /"name": "showValues", "value": false/);
+  assert.match(widget, /"interactionMode": "STANDARD"/);
   assert.match(detail, /"bind": \[\{ "name": "showValues", "value": false \}\]/);
   assert.match(handlers, /action === 'select-profile' \|\| action === 'show-details'/);
   assert.match(handlers, /await renderMasked\(input, profile\)/);
