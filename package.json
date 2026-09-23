@@ -7,7 +7,8 @@
     "packages/*"
   ],
   "scripts": {
-    "start:discloud": "NODE_ENV=production PORT=${PORT:-8080} HOST=${HOST:-0.0.0.0} node --import tsx apps/api/src/server.ts",
+    "prisma:generate": "prisma generate --schema=packages/database/prisma/schema.prisma",
+    "start:discloud": "npm run prisma:generate && NODE_ENV=production PORT=${PORT:-8080} HOST=${HOST:-0.0.0.0} node --import tsx apps/api/src/server.ts",
     "test": "npm run test --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present"
   },
@@ -15,6 +16,14 @@
     "node": ">=20"
   },
   "dependencies": {
-    "tsx": "^4.19.0"
+    "@alexa-finances/database": "file:packages/database",
+    "@alexa-finances/market-data": "file:packages/market-data",
+    "@alexa-finances/portfolio-domain": "file:packages/portfolio-domain",
+    "@prisma/adapter-libsql": "^6.19.3",
+    "@prisma/client": "^6.19.3",
+    "fastify": "^5.0.0",
+    "prisma": "^6.19.3",
+    "tsx": "^4.19.0",
+    "zod": "^3.24.0"
   }
 }
