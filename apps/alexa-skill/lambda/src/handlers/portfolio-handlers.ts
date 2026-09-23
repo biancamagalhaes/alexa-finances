@@ -42,6 +42,7 @@ export const LaunchRequestHandler: RequestHandler = {
 
     return input.responseBuilder
       .speak('Sua carteira está pronta. Os valores ficam ocultos até você tocar no olho na tela.')
+      .reprompt('O que você quer consultar na sua carteira?')
       .getResponse();
   }
 };
@@ -56,6 +57,7 @@ export const OpenPortfolioIntentHandler: RequestHandler = {
     await renderMasked(input, profile);
     return input.responseBuilder
       .speak('Abri sua carteira. Os valores ficam ocultos até você tocar no olho na tela.')
+      .reprompt('O que você quer consultar na sua carteira?')
       .getResponse();
   }
 };
@@ -73,6 +75,7 @@ export const SelectProfileIntentHandler: RequestHandler = {
     await renderMasked(input, profile);
     return input.responseBuilder
       .speak('Perfil atualizado. Os valores ficam ocultos até você tocar no olho na tela.')
+      .reprompt('O que você quer consultar nessa carteira?')
       .getResponse();
   }
 };
