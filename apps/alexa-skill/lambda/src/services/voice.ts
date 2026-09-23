@@ -31,19 +31,18 @@ function safeAllocationLabel(status: VoiceStatus): string | null {
   return allocationLabels[normalized] ?? null;
 }
 
-export function statusSpeech(profile: ProfileId, status: VoiceStatus): string {
-  const profileLabel = profileLabels[profile];
+export function statusSpeech(_profile: ProfileId, status: VoiceStatus): string {
   const resultState = safeResultState(status);
 
   if (resultState === 'positive') {
-    return `O resultado da carteira ${profileLabel} está positivo. Toque na tela para ver os detalhes.`;
+    return 'Seu resultado está positivo. Toque na tela para ver o valor.';
   }
 
   if (resultState === 'negative') {
-    return `O resultado da carteira ${profileLabel} está negativo. Toque na tela para ver os detalhes.`;
+    return 'Seu resultado está negativo. Toque na tela para ver o valor.';
   }
 
-  return `A carteira ${profileLabel} está estável. Toque na tela para ver os detalhes.`;
+  return 'Seu resultado está estável. Toque na tela para ver o valor.';
 }
 
 export function breakdownSpeech(profile: ProfileId, status: VoiceStatus): string {

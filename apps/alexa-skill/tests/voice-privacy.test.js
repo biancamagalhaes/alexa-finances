@@ -8,9 +8,9 @@ const forbiddenValuePatterns = [/R\$/i, /\d/, /%/];
 
 test('qualitative voice replies never expose financial values', () => {
   const replies = [
-    'O resultado da carteira Bianca está positivo. Toque na tela para ver os detalhes.',
+    'Seu resultado está positivo. Toque na tela para ver o valor.',
     'A maior classe da carteira Família é ações. Toque na tela para ver a composição.',
-    'A carteira Sergio está estável. Toque na tela para ver os detalhes.'
+    'Seu resultado está estável. Toque na tela para ver o valor.'
   ];
 
   for (const reply of replies) {
