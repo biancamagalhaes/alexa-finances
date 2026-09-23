@@ -1,6 +1,6 @@
 # Alexa Finances
 
-Carteira familiar para a Echo Show 15, com perfis Bianca, Sergio e Família.
+Carteira familiar para a Echo Show 15, com perfis.
 
 ## Decisões do MVP
 
