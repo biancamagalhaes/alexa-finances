@@ -61,12 +61,34 @@ describe('API bearer authentication', () => {
     const short = validateBearerHeader('Bearer short', bearerToken);
     const incorrect = validateBearerHeader(`Bearer ${'x'.repeat(bearerToken.length)}`, bearerToken);
 
-    expect(missing).toEqual({ valid: false, reason: 'missing_or_malformed' });
-    expect(short).toEqual({ valid: false, reason: 'token_length_mismatch', providedTokenLength: 5 });
+    expect(missing).toEqual({ valid: false, reason: 'missing_or_malformed', credentialSource: 'none' });
+    expect(short).toEqual({
+      valid: false,
+      reason: 'token_length_mismatch',
+      credentialSource: 'authorization',
+      providedTokenLength: 5,
+    });
     expect(incorrect).toEqual({
       valid: false,
       reason: 'token_mismatch',
+      credentialSource: 'authorization',
       providedTokenLength: bearerToken.length,
     });
+  });
+
+  it('accepts the proxy-safe X-API-Key alternative', async () => {
+    const app = buildApp({ apiBearerToken: bearerToken });
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/v1/operations',
+        headers: { 'x-api-key': bearerToken },
+        payload: {},
+      });
+      expect(response.statusCode).toBe(400);
+      expect(response.json()).toMatchObject({ error: 'VALIDATION_ERROR' });
+    } finally {
+      await app.close();
+    }
   });
 });

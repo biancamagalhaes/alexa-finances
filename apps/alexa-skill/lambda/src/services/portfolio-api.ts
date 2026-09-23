@@ -9,7 +9,7 @@ function getHeaders(): HeadersInit {
   }
   return {
     Accept: 'application/json',
-    Authorization: `Bearer ${token}`
+    'X-API-Key': token,
   };
 }
 

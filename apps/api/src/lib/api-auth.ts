@@ -8,6 +8,7 @@ export type BearerTokenValidation =
   | {
     readonly valid: false;
     readonly reason: 'missing_or_malformed' | 'token_length_mismatch' | 'token_mismatch';
+    readonly credentialSource: 'authorization' | 'x_api_key' | 'none';
     readonly providedTokenLength?: number;
   };
 
@@ -24,21 +25,38 @@ export function hasValidBearerToken(request: FastifyRequest, expectedToken: stri
 }
 
 export function validateBearerToken(request: FastifyRequest, expectedToken: string): BearerTokenValidation {
-  return validateBearerHeader(request.headers.authorization, expectedToken);
+  const bearerToken = parseBearerToken(request.headers.authorization);
+  if (bearerToken) return validateProvidedToken(bearerToken, expectedToken, 'authorization');
+
+  const apiKey = request.headers['x-api-key'];
+  if (typeof apiKey === 'string' && apiKey) return validateProvidedToken(apiKey, expectedToken, 'x_api_key');
+
+  return {
+    valid: false,
+    reason: 'missing_or_malformed',
+    credentialSource: request.headers.authorization ? 'authorization' : 'none',
+  };
 }
 
 export function validateBearerHeader(header: string | undefined, expectedToken: string): BearerTokenValidation {
   const providedToken = parseBearerToken(header);
-  if (!providedToken) return { valid: false, reason: 'missing_or_malformed' };
+  if (!providedToken) return { valid: false, reason: 'missing_or_malformed', credentialSource: header ? 'authorization' : 'none' };
+  return validateProvidedToken(providedToken, expectedToken, 'authorization');
+}
 
+function validateProvidedToken(
+  providedToken: string,
+  expectedToken: string,
+  credentialSource: 'authorization' | 'x_api_key',
+): BearerTokenValidation {
   const provided = Buffer.from(providedToken);
   const expected = Buffer.from(expectedToken);
   if (provided.length !== expected.length) {
-    return { valid: false, reason: 'token_length_mismatch', providedTokenLength: provided.length };
+    return { valid: false, reason: 'token_length_mismatch', credentialSource, providedTokenLength: provided.length };
   }
   return timingSafeEqual(provided, expected)
     ? { valid: true }
-    : { valid: false, reason: 'token_mismatch', providedTokenLength: provided.length };
+    : { valid: false, reason: 'token_mismatch', credentialSource, providedTokenLength: provided.length };
 }
 
 function parseBearerToken(header: string | undefined): string | undefined {

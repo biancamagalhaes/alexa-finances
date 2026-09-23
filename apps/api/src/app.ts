@@ -49,6 +49,7 @@ export function buildApp(options: { readonly apiBearerToken?: string; readonly t
         method: request.method,
         route: requestRoute(request),
         reason: validation.reason,
+        credentialSource: validation.credentialSource,
         expectedTokenLength: apiBearerToken.length,
         providedTokenLength: validation.providedTokenLength,
       }, 'API authentication failed');

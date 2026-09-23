@@ -4,7 +4,8 @@ The API persists the investment ledger. It accepts decimal values as strings so 
 
 ## Segurança
 
-Todas as rotas em `/v1` exigem `Authorization: Bearer <API_BEARER_TOKEN>`.
+Todas as rotas em `/v1` exigem `Authorization: Bearer <API_BEARER_TOKEN>` ou
+`X-API-Key: <API_BEARER_TOKEN>`.
 Defina um token aleatório com pelo menos 32 caracteres em `apps/api/.env`; a
 API não inicia se esse segredo estiver ausente. `GET /health` permanece público
 para monitoramento e não expõe dados da carteira.

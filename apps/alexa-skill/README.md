@@ -15,8 +15,9 @@ Os identificadores de perfil são fixos: `bianca`, `sergio` e `family`. O rótul
 ## Contrato da API financeira
 
 Configure `PORTFOLIO_API_BASE_URL` e `PORTFOLIO_API_TOKEN` na Lambda. O token
-deve ser exatamente o mesmo `API_BEARER_TOKEN` configurado na API; a Skill não
-faz chamadas sem esse Bearer token.
+deve ser exatamente o mesmo `API_BEARER_TOKEN` configurado na API; a Skill o
+envia no header `X-API-Key` para atravessar proxies que não encaminham
+`Authorization`.
 
 `GET /v1/alexa/portfolio-view?profile=bianca|sergio|family` retorna `PortfolioView`, definido em `lambda/src/types/portfolio.ts`. Campos monetários formatados são usados exclusivamente no APL; cada campo sensível exige a variante mascarada correspondente.
 
