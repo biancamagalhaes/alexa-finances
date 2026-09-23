@@ -13,11 +13,12 @@ export type BearerTokenValidation =
   };
 
 export function requireApiBearerToken(value: string | undefined): string {
-  const token = value?.trim();
-  if (!token || token.length < minimumTokenLength) {
-    throw new Error(`API_BEARER_TOKEN must contain at least ${minimumTokenLength} characters`);
-  }
-  return token;
+  return requireToken(value, 'API_BEARER_TOKEN');
+}
+
+export function optionalApiBearerToken(value: string | undefined, variableName: string): string | undefined {
+  if (value === undefined || value.trim() === '') return undefined;
+  return requireToken(value, variableName);
 }
 
 export function hasValidBearerToken(request: FastifyRequest, expectedToken: string): boolean {
@@ -62,4 +63,12 @@ function validateProvidedToken(
 function parseBearerToken(header: string | undefined): string | undefined {
   const match = /^Bearer +([^\s]+)$/i.exec(header ?? '');
   return match?.[1];
+}
+
+function requireToken(value: string | undefined, variableName: string): string {
+  const token = value?.trim();
+  if (!token || token.length < minimumTokenLength) {
+    throw new Error(`${variableName} must contain at least ${minimumTokenLength} characters`);
+  }
+  return token;
 }

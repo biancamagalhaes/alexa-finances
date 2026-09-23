@@ -3,6 +3,7 @@ dist/
 coverage/
 apps/alexa-skill/deploy/
 apps/alexa-skill/*.zip
+apps/alexa-skill/alexa-hosted-build/
 .env
 .env.*
 !.env.example

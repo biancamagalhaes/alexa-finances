@@ -1,5 +1,5 @@
 import Fastify, { type FastifyInstance } from 'fastify';
-import { requireApiBearerToken, validateBearerToken } from './lib/api-auth.js';
+import { optionalApiBearerToken, requireApiBearerToken, validateBearerToken } from './lib/api-auth.js';
 import {
   isTursoAuthTokenExpired,
   isTursoTokenExpiryError,
@@ -10,9 +10,15 @@ import { instrumentRoutes } from './routes/instruments.js';
 import { operationRoutes } from './routes/operations.js';
 import { profileRoutes } from './routes/profiles.js';
 
-export function buildApp(options: { readonly apiBearerToken?: string; readonly tursoAuthToken?: string } = {}): FastifyInstance {
+export function buildApp(options: {
+  readonly apiBearerToken?: string;
+  readonly alexaApiToken?: string;
+  readonly tursoAuthToken?: string;
+} = {}): FastifyInstance {
   const app = Fastify({ logger: { level: process.env.LOG_LEVEL ?? 'info' } });
   const apiBearerToken = requireApiBearerToken(options.apiBearerToken ?? process.env.API_BEARER_TOKEN);
+  const alexaApiToken = optionalApiBearerToken(options.alexaApiToken ?? process.env.ALEXA_API_TOKEN, 'ALEXA_API_TOKEN')
+    ?? apiBearerToken;
   const tursoAuthToken = options.tursoAuthToken ?? process.env.TURSO_AUTH_TOKEN;
 
   app.addHook('onResponse', async (request, reply) => {
@@ -41,7 +47,8 @@ export function buildApp(options: { readonly apiBearerToken?: string; readonly t
   app.get('/health', async () => ({ status: 'ok' }));
   app.register(async (protectedApi) => {
     protectedApi.addHook('onRequest', async (request, reply) => {
-      const validation = validateBearerToken(request, apiBearerToken);
+      const expectedToken = isAlexaReadRoute(request) ? alexaApiToken : apiBearerToken;
+      const validation = validateBearerToken(request, expectedToken);
       if (validation.valid) return;
       request.log.warn({
         event: 'api_auth_failed',
@@ -50,7 +57,7 @@ export function buildApp(options: { readonly apiBearerToken?: string; readonly t
         route: requestRoute(request),
         reason: validation.reason,
         credentialSource: validation.credentialSource,
-        expectedTokenLength: apiBearerToken.length,
+        expectedTokenLength: expectedToken.length,
         providedTokenLength: validation.providedTokenLength,
       }, 'API authentication failed');
       return reply
@@ -72,6 +79,10 @@ export function buildApp(options: { readonly apiBearerToken?: string; readonly t
   }, { prefix: '/v1' });
 
   return app;
+}
+
+function isAlexaReadRoute(request: { readonly method: string; readonly url: string }): boolean {
+  return request.method === 'GET' && request.url.startsWith('/v1/alexa/');
 }
 
 function hasClientStatusCode(error: unknown): error is { statusCode: number } {

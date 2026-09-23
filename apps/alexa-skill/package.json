@@ -5,6 +5,7 @@
   "type": "commonjs",
   "scripts": {
     "build": "tsc --noEmit",
+    "package:alexa-hosted": "node scripts/package-alexa-hosted.mjs",
     "package:lambda": "node scripts/package-lambda.mjs",
     "test": "node --test tests/**/*.test.js",
     "validate:json": "node scripts/validate-json.js",

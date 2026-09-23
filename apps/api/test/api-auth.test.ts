@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { buildApp } from '../src/app.js';
-import { requireApiBearerToken, validateBearerHeader } from '../src/lib/api-auth.js';
+import { optionalApiBearerToken, requireApiBearerToken, validateBearerHeader } from '../src/lib/api-auth.js';
 
 const bearerToken = 'test-token-with-at-least-thirty-two-characters';
 
@@ -9,6 +9,8 @@ describe('API bearer authentication', () => {
     expect(() => requireApiBearerToken(undefined)).toThrow('API_BEARER_TOKEN');
     expect(() => requireApiBearerToken('   ')).toThrow('API_BEARER_TOKEN');
     expect(() => requireApiBearerToken('short-token')).toThrow('API_BEARER_TOKEN');
+    expect(() => optionalApiBearerToken('short-token', 'ALEXA_API_TOKEN')).toThrow('ALEXA_API_TOKEN');
+    expect(optionalApiBearerToken(undefined, 'ALEXA_API_TOKEN')).toBeUndefined();
   });
 
   it('keeps health public but rejects missing, malformed, and incorrect credentials on every sensitive route group', async () => {
@@ -87,6 +89,36 @@ describe('API bearer authentication', () => {
       });
       expect(response.statusCode).toBe(400);
       expect(response.json()).toMatchObject({ error: 'VALIDATION_ERROR' });
+    } finally {
+      await app.close();
+    }
+  });
+
+  it('limits an optional Alexa token to read-only Alexa routes', async () => {
+    const alexaToken = 'alexa-token-with-at-least-thirty-two-characters';
+    const app = buildApp({ apiBearerToken: bearerToken, alexaApiToken: alexaToken });
+    try {
+      const operationResponse = await app.inject({
+        method: 'POST',
+        url: '/v1/operations',
+        headers: { 'x-api-key': alexaToken },
+        payload: {},
+      });
+      expect(operationResponse.statusCode).toBe(401);
+
+      const alexaResponse = await app.inject({
+        method: 'GET',
+        url: '/v1/alexa/portfolio-view?profile=bianca',
+        headers: { 'x-api-key': alexaToken },
+      });
+      expect(alexaResponse.statusCode).not.toBe(401);
+
+      const genericTokenOnAlexaRoute = await app.inject({
+        method: 'GET',
+        url: '/v1/alexa/portfolio-view?profile=bianca',
+        headers: { 'x-api-key': bearerToken },
+      });
+      expect(genericTokenOnAlexaRoute.statusCode).toBe(401);
     } finally {
       await app.close();
     }

@@ -38,6 +38,19 @@ Não retorne moeda, percentuais, quantidades, preços, datas, tickers ou texto l
 
 Estas etapas assumem uma Skill **self-hosted** em AWS Lambda e a conta Amazon da Echo Show 15 como conta de teste.
 
+### Hospedagem gratuita pela Alexa
+
+Para não usar uma conta AWS pessoal, crie uma nova Custom Skill com **Alexa-hosted (Node.js)**. O código pode ser enviado pelo menu **Code → Import Code** com:
+
+```sh
+cd apps/alexa-skill
+npm run package:alexa-hosted
+```
+
+O arquivo gerado é `minha-carteira-alexa-hosted-code.zip`. Ele não contém nenhum token.
+
+A Skill lê sua credencial pela tabela DynamoDB privada já criada pelo Alexa-hosted. Depois de configurar `ALEXA_API_TOKEN` no Discloud, insira uma única linha nessa tabela: `id` igual a `portfolio-api-config` e `apiToken` igual ao valor bruto de `ALEXA_API_TOKEN`. Essa chave só pode consultar `GET /v1/alexa/*`; ela não pode cadastrar nem alterar investimentos.
+
 1. Instale e autentique o ASK CLI: `npm install --global ask-cli@2` e `ask configure`. No Alexa Developer Console, crie uma Custom Skill em `pt-BR` chamada “Minha Carteira”. Anote o Skill ID.
 
 2. Na Skill, abra **Build → Interfaces** e ative **Alexa Presentation Language**, **Data Store** e **Data Store Packages**. Em seguida, salve e construa o modelo. O [`skill.json`](skill.json) já declara as três interfaces, a extensão `alexaext:datastore:10` e o pacote `MinhaCarteiraWidget`.
