@@ -11,6 +11,6 @@
     "typecheck": "npm run typecheck --workspaces --if-present"
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=20"
   }
 }
