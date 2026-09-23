@@ -56,13 +56,12 @@ Estas etapas assumem uma Skill **self-hosted** em AWS Lambda e a conta Amazon da
 
    ```sh
    cd apps/alexa-skill
-   rm -rf deploy
-   mkdir deploy
-   npx tsc --noEmit false --outDir deploy
-   cp package.json package-lock.json deploy/
-   npm ci --omit=dev --prefix deploy
-   (cd deploy && zip -r ../minha-carteira-lambda.zip .)
+   npm run package:lambda
    ```
+
+   O comando gera `minha-carteira-lambda.zip`, com `index.js` e as dependências
+   de produção na raiz do arquivo. A pasta intermediária `deploy/` e o `.zip`
+   são ignorados pelo Git.
 
    Faça upload de `minha-carteira-lambda.zip` à Lambda, adicione o gatilho **Alexa Skills Kit** e informe o Skill ID. No Developer Console, em **Build → Endpoint**, selecione a Lambda e informe o ARN da função. Configure `PORTFOLIO_API_BASE_URL` e `PORTFOLIO_API_TOKEN` como variáveis protegidas da Lambda; nunca as coloque no repositório.
 

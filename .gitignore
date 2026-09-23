@@ -1,6 +1,8 @@
 node_modules/
 dist/
 coverage/
+apps/alexa-skill/deploy/
+apps/alexa-skill/*.zip
 .env
 .env.*
 !.env.example
