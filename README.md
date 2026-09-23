@@ -36,3 +36,10 @@ CONFIRM_DEMO_RESET=clear-demo-data npm run reset:demo --workspace=@alexa-finance
 - `apps/alexa-skill`: Skill Alexa e documentos APL.
 - `packages/database`: modelo e acesso ao banco.
 - `packages/portfolio-domain`: cálculos financeiros puros.
+
+## Deploy no Discloud
+
+O arquivo `discloud.config` publica a API em `https://alexa-finances.discloud.app`,
+na porta `8080`. Antes do deploy, registre o subdomínio `alexa-finances` na
+Discloud e configure por lá as variáveis de ambiente que estão no
+`apps/api/.env.example`. Nunca envie o arquivo `.env`.

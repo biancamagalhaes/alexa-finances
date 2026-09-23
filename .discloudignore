@@ -1,0 +1,9 @@
+.git/
+node_modules/
+coverage/
+*.log
+*.db
+*.db-journal
+.env
+.env.*
+apps/*/.env
