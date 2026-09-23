@@ -3,7 +3,7 @@
   "version": "2024.3",
   "theme": "dark",
   "mainTemplate": {
-    "parameters": ["payload"],
+    "parameters": ["portfolio"],
     "items": [
       {
         "type": "Container",
@@ -30,7 +30,7 @@
               },
               {
                 "type": "Text",
-                "text": "Atualizado ${payload.portfolio.asOfLabel}",
+                "text": "Atualizado ${portfolio.asOfLabel}",
                 "style": "textStyleSecondary",
                 "color": "#94A3B8"
               }
@@ -45,17 +45,17 @@
               {
                 "type": "TouchWrapper",
                 "onPress": [{ "type": "SendEvent", "arguments": ["select-profile", "bianca"] }],
-                "item": { "type": "Text", "text": "Bianca", "paddingLeft": "18dp", "paddingRight": "18dp", "paddingTop": "10dp", "paddingBottom": "10dp", "borderRadius": "20dp", "backgroundColor": "${payload.portfolio.profile.id == 'bianca' ? '#2563EB' : '#1E293B'}", "color": "#F8FAFC" }
+                "item": { "type": "Text", "text": "Bianca", "paddingLeft": "18dp", "paddingRight": "18dp", "paddingTop": "10dp", "paddingBottom": "10dp", "borderRadius": "20dp", "backgroundColor": "${portfolio.profile.id == 'bianca' ? '#2563EB' : '#1E293B'}", "color": "#F8FAFC" }
               },
               {
                 "type": "TouchWrapper",
                 "onPress": [{ "type": "SendEvent", "arguments": ["select-profile", "sergio"] }],
-                "item": { "type": "Text", "text": "Sergio", "paddingLeft": "18dp", "paddingRight": "18dp", "paddingTop": "10dp", "paddingBottom": "10dp", "borderRadius": "20dp", "backgroundColor": "${payload.portfolio.profile.id == 'sergio' ? '#2563EB' : '#1E293B'}", "color": "#F8FAFC" }
+                "item": { "type": "Text", "text": "Sergio", "paddingLeft": "18dp", "paddingRight": "18dp", "paddingTop": "10dp", "paddingBottom": "10dp", "borderRadius": "20dp", "backgroundColor": "${portfolio.profile.id == 'sergio' ? '#2563EB' : '#1E293B'}", "color": "#F8FAFC" }
               },
               {
                 "type": "TouchWrapper",
                 "onPress": [{ "type": "SendEvent", "arguments": ["select-profile", "family"] }],
-                "item": { "type": "Text", "text": "Família", "paddingLeft": "18dp", "paddingRight": "18dp", "paddingTop": "10dp", "paddingBottom": "10dp", "borderRadius": "20dp", "backgroundColor": "${payload.portfolio.profile.id == 'family' ? '#2563EB' : '#1E293B'}", "color": "#F8FAFC" }
+                "item": { "type": "Text", "text": "Família", "paddingLeft": "18dp", "paddingRight": "18dp", "paddingTop": "10dp", "paddingBottom": "10dp", "borderRadius": "20dp", "backgroundColor": "${portfolio.profile.id == 'family' ? '#2563EB' : '#1E293B'}", "color": "#F8FAFC" }
               }
             ]
           },
@@ -69,7 +69,7 @@
                 "type": "Container",
                 "items": [
                   { "type": "Text", "text": "Patrimônio", "style": "textStyleSecondary", "color": "#94A3B8" },
-                  { "type": "Text", "text": "${showValues ? payload.portfolio.summary.patrimony : payload.portfolio.summary.maskedPatrimony}", "style": "textStylePrimary2", "color": "#F8FAFC" }
+                  { "type": "Text", "text": "${showValues ? portfolio.summary.patrimony : portfolio.summary.maskedPatrimony}", "style": "textStylePrimary2", "color": "#F8FAFC" }
                 ]
               },
               {
@@ -93,8 +93,8 @@
                 "borderRadius": "14dp",
                 "items": [
                   { "type": "Text", "text": "Resultado no mês", "style": "textStyleSecondary", "color": "#94A3B8" },
-                  { "type": "Text", "text": "${showValues ? payload.portfolio.summary.monthlyResult : payload.portfolio.summary.maskedMonthlyResult}", "style": "textStylePrimary2", "color": "#F8FAFC" },
-                  { "type": "Text", "text": "${payload.portfolio.resultLabel}", "style": "textStyleSecondary", "color": "#94A3B8" }
+                  { "type": "Text", "text": "${showValues ? portfolio.summary.monthlyResult : portfolio.summary.maskedMonthlyResult}", "style": "textStylePrimary2", "color": "#F8FAFC" },
+                  { "type": "Text", "text": "${portfolio.resultLabel}", "style": "textStyleSecondary", "color": "#94A3B8" }
                 ]
               },
               {
@@ -105,7 +105,7 @@
                 "borderRadius": "14dp",
                 "items": [
                   { "type": "Text", "text": "Aportado", "style": "textStyleSecondary", "color": "#94A3B8" },
-                  { "type": "Text", "text": "${showValues ? payload.portfolio.summary.contributions : payload.portfolio.summary.maskedContributions}", "style": "textStylePrimary2", "color": "#F8FAFC" }
+                  { "type": "Text", "text": "${showValues ? portfolio.summary.contributions : portfolio.summary.maskedContributions}", "style": "textStylePrimary2", "color": "#F8FAFC" }
                 ]
               },
               {
@@ -116,7 +116,7 @@
                 "borderRadius": "14dp",
                 "items": [
                   { "type": "Text", "text": "Proventos", "style": "textStyleSecondary", "color": "#94A3B8" },
-                  { "type": "Text", "text": "${showValues ? payload.portfolio.summary.income : payload.portfolio.summary.maskedIncome}", "style": "textStylePrimary2", "color": "#F8FAFC" }
+                  { "type": "Text", "text": "${showValues ? portfolio.summary.income : portfolio.summary.maskedIncome}", "style": "textStylePrimary2", "color": "#F8FAFC" }
                 ]
               }
             ]
@@ -134,7 +134,7 @@
                   { "type": "Text", "text": "Distribuição", "style": "textStylePrimary2", "color": "#F8FAFC" },
                   {
                     "type": "Container",
-                    "data": "${payload.portfolio.allocation}",
+                    "data": "${portfolio.allocation}",
                     "items": [
                       { "type": "Text", "text": "${data.label} · ${data.percentageLabel}", "paddingTop": "10dp", "style": "textStylePrimary3", "color": "#CBD5E1" }
                     ]
@@ -149,7 +149,7 @@
                   {
                     "type": "Sequence",
                     "height": "28vh",
-                    "data": "${payload.portfolio.positions}",
+                    "data": "${portfolio.positions}",
                     "numbered": false,
                     "items": [
                       {

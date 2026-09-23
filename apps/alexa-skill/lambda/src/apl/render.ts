@@ -26,7 +26,7 @@ export function addPortfolioDocument(input: HandlerInput, portfolio: PortfolioVi
     token: DETAIL_TOKEN,
     document: detailDocument,
     datasources: {
-      payload: { portfolio }
+      portfolio
     }
   });
 }
