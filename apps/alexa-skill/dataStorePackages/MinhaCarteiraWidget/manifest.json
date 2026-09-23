@@ -1,0 +1,28 @@
+{
+  "packageVersion": "1.0",
+  "packageType": "APL_PACKAGE",
+  "publishingInformation": {
+    "schemaVersion": "1.0",
+    "locales": {
+      "pt-BR": [
+        {
+          "targetViewport": "WIDGET_M",
+          "metadata": {
+            "name": "Minha Carteira",
+            "description": "Resumo privado da carteira familiar.",
+            "keywords": ["investimentos", "carteira", "ações", "fiis"]
+          }
+        }
+      ]
+    }
+  },
+  "manifest": {
+    "id": "MinhaCarteiraWidget",
+    "version": "0.1.0",
+    "installStateChanges": "INFORM",
+    "updateStateChanges": "INFORM",
+    "presentationDefinitions": [{ "url": "presentations/default.tpl" }],
+    "appliesTo": "${viewport.mode == 'HUB'}",
+    "location": "FAVORITE"
+  }
+}

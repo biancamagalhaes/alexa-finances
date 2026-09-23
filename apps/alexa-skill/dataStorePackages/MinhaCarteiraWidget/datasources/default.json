@@ -1,0 +1,19 @@
+{
+  "payload": {
+    "portfolio": {
+      "profile": { "id": "family", "label": "Família" },
+      "asOfLabel": "aguardando atualização",
+      "resultLabel": "",
+      "summary": {
+        "maskedPatrimony": "••••••",
+        "patrimony": "",
+        "maskedMonthlyResult": "••••••",
+        "monthlyResult": "",
+        "maskedContributions": "••••••",
+        "contributions": "",
+        "maskedIncome": "••••••",
+        "income": ""
+      }
+    }
+  }
+}

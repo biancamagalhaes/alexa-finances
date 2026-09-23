@@ -1,0 +1,145 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum ProfileSlug {
+  BIANCA
+  SERGIO
+}
+
+enum InstrumentType {
+  STOCK
+  FII
+  TREASURY
+}
+
+enum OperationType {
+  OPENING_POSITION
+  BUY
+  SELL
+  INCOME
+  CASH_CONTRIBUTION
+  CASH_WITHDRAWAL
+}
+
+enum MarketRunKind {
+  AFTER_OPEN
+  AFTER_CLOSE
+}
+
+enum MarketIngestionStatus {
+  SUCCEEDED
+  PARTIAL
+  FAILED
+}
+
+model Profile {
+  id         String      @id @default(uuid())
+  slug       ProfileSlug @unique
+  displayName String
+  operations Operation[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+model Instrument {
+  id               String         @id @default(uuid())
+  symbol           String         @unique
+  name             String
+  type             InstrumentType
+  isDemo           Boolean        @default(false)
+  treasuryType     String?
+  maturityDate     DateTime?
+  operations       Operation[]
+  priceQuotes      PriceQuote[]
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  @@index([type])
+}
+
+/// One canonical closing quote per instrument and market date. Invalid quotes are
+/// retained for audit purposes but are never used to value a portfolio.
+model PriceQuote {
+  id             String     @id @default(uuid())
+  instrumentId   String
+  quotedOn       DateTime
+  price          Decimal
+  sourceProvider String
+  sourceEndpoint String
+  retrievedAt    DateTime
+  publishedOn    DateTime
+  isValid        Boolean    @default(true)
+  isDemo         Boolean    @default(false)
+  instrument     Instrument @relation(fields: [instrumentId], references: [id], onDelete: Restrict)
+
+  @@unique([instrumentId, quotedOn, sourceProvider])
+  @@index([instrumentId, isValid, quotedOn])
+  @@index([quotedOn])
+}
+
+/// A daily denormalized view for future charts/audits. Family is a calculated
+/// scope, so snapshots intentionally are not tied to the Profile table.
+model PortfolioDailySnapshot {
+  id                   String   @id @default(uuid())
+  profileScope         String
+  asOf                 DateTime
+  marketValue          Decimal
+  cashBalance          Decimal
+  patrimony            Decimal
+  monthlyResult        Decimal?
+  contributions        Decimal
+  income               Decimal
+  isDemo               Boolean  @default(false)
+  calculatedAt         DateTime @default(now())
+
+  @@unique([profileScope, asOf])
+  @@index([asOf])
+}
+
+model MarketIngestionRun {
+  idempotencyKey String                @id
+  kind           MarketRunKind
+  quotedOn       DateTime
+  startedAt      DateTime
+  completedAt    DateTime
+  status         MarketIngestionStatus
+  inserted       Int
+  unchanged      Int
+  updated        Int
+  rejected       Int
+  failures       Json
+  isDemo         Boolean               @default(false)
+
+  @@index([quotedOn, kind])
+}
+
+model Operation {
+  id             String        @id @default(uuid())
+  profileId      String
+  instrumentId   String?
+  type           OperationType
+  occurredOn     DateTime
+  quantity       Decimal?
+  unitPrice      Decimal?
+  amount         Decimal?
+  feeAmount      Decimal       @default(0)
+  idempotencyKey String
+  notes          String?
+  metadata       Json?
+  isDemo         Boolean       @default(false)
+  profile        Profile       @relation(fields: [profileId], references: [id], onDelete: Restrict)
+  instrument     Instrument?   @relation(fields: [instrumentId], references: [id], onDelete: Restrict)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@unique([profileId, idempotencyKey])
+  @@index([profileId, occurredOn])
+  @@index([instrumentId, occurredOn])
+  @@index([type, occurredOn])
+}

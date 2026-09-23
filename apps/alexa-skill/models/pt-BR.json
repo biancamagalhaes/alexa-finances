@@ -1,0 +1,48 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "minha carteira",
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "OpenPortfolioIntent",
+          "samples": ["abrir carteira", "mostrar carteira", "mostrar meus investimentos"]
+        },
+        {
+          "name": "SelectProfileIntent",
+          "slots": [{ "name": "profile", "type": "PROFILE" }],
+          "samples": ["mostrar a carteira de {profile}", "abrir perfil {profile}"]
+        },
+        {
+          "name": "PortfolioStatusIntent",
+          "samples": ["como está minha carteira", "como estão meus investimentos", "qual foi meu resultado este mês"]
+        },
+        {
+          "name": "PortfolioBreakdownIntent",
+          "samples": ["como está dividida minha carteira", "qual é a maior posição", "quando foi atualizada"]
+        }
+      ],
+      "types": [
+        {
+          "name": "PROFILE",
+          "values": [
+            { "name": { "value": "Bianca", "synonyms": ["bianca"] } },
+            { "name": { "value": "Sergio", "synonyms": ["sergio", "sérgio"] } },
+            { "name": { "value": "Família", "synonyms": ["família", "familia"] } }
+          ]
+        }
+      ]
+    }
+  }
+}

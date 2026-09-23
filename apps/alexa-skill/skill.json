@@ -1,0 +1,62 @@
+{
+  "manifest": {
+    "manifestVersion": "1.0",
+    "publishingInformation": {
+      "locales": {
+        "pt-BR": {
+          "name": "Minha Carteira",
+          "summary": "Acompanhe a carteira da família.",
+          "description": "Visualize o resumo privado da carteira familiar na Echo Show.",
+          "examplePhrases": [
+            "Alexa, abrir Minha Carteira",
+            "Alexa, como está minha carteira"
+          ],
+          "keywords": ["investimentos", "carteira", "ações", "fiis"]
+        }
+      },
+      "isAvailableWorldwide": false,
+      "distributionCountries": ["BR"],
+      "testingInstructions": "Skill privada para a conta da família.",
+      "category": "FINANCE",
+      "distributionMode": "PRIVATE",
+      "automaticDistribution": { "isActive": false },
+      "distribution": { "countries": ["BR"] }
+    },
+    "apis": {
+      "custom": {
+        "endpoint": { "sourceDir": "lambda" },
+        "interfaces": [
+          { "type": "ALEXA_PRESENTATION_APL" },
+          { "type": "ALEXA_DATA_STORE" },
+          {
+            "type": "ALEXA_DATASTORE_PACKAGEMANAGER",
+            "packages": [{ "id": "MinhaCarteiraWidget" }]
+          },
+          {
+            "type": "ALEXA_EXTENSION",
+            "autoInitializedExtensions": [],
+            "requestedExtensions": [
+              { "uri": "alexaext:datastore:10" }
+            ]
+          }
+        ],
+        "locales": {
+          "pt-BR": { "custom": {} }
+        }
+      }
+    },
+    "privacyAndCompliance": {
+      "allowsPurchases": false,
+      "usesPersonalInfo": false,
+      "isChildDirected": false,
+      "isExportCompliant": true,
+      "containsAds": false,
+      "locales": {
+        "pt-BR": {
+          "privacyPolicyUrl": "https://example.com/privacy",
+          "termsOfUseUrl": "https://example.com/terms"
+        }
+      }
+    }
+  }
+}

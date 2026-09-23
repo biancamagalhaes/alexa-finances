@@ -1,0 +1,88 @@
+{
+  "type": "APL",
+  "version": "2024.3",
+  "theme": "dark",
+  "extensions": [
+    { "name": "DataStore", "uri": "alexaext:datastore:10" }
+  ],
+  "settings": {
+    "DataStore": {
+      "dataBindings": [
+        {
+          "namespace": "portfolio",
+          "key": "summary",
+          "dataBindingName": "DS_Portfolio",
+          "dataType": "OBJECT"
+        }
+      ]
+    }
+  },
+  "mainTemplate": {
+    "parameters": ["payload"],
+    "items": [
+      {
+        "type": "Container",
+        "id": "widget-root",
+        "width": "100vw",
+        "height": "100vh",
+        "paddingLeft": "22dp",
+        "paddingRight": "22dp",
+        "paddingTop": "18dp",
+        "paddingBottom": "18dp",
+        "backgroundColor": "#101827",
+        "bind": [{ "name": "showValues", "value": false }],
+        "items": [
+          {
+            "type": "Container",
+            "direction": "row",
+            "justifyContent": "spaceBetween",
+            "items": [
+              { "type": "Text", "text": "Minha Carteira", "style": "textStylePrimary2", "color": "#F8FAFC" },
+              {
+                "type": "TouchWrapper",
+                "onPress": [{ "type": "SetValue", "componentId": "widget-root", "property": "showValues", "value": "${!showValues}" }],
+                "item": { "type": "Text", "text": "${showValues ? '◉' : '⊘'}", "fontSize": "28dp", "color": "#CBD5E1" }
+              }
+            ]
+          },
+          {
+            "type": "Container",
+            "direction": "row",
+            "spacing": "8dp",
+            "paddingTop": "12dp",
+            "items": [
+              { "type": "TouchWrapper", "onPress": [{ "type": "SendEvent", "arguments": ["select-profile", "bianca"] }], "item": { "type": "Text", "text": "Bianca", "paddingLeft": "10dp", "paddingRight": "10dp", "paddingTop": "6dp", "paddingBottom": "6dp", "borderRadius": "14dp", "backgroundColor": "${DS_Portfolio.profile.id == 'bianca' ? '#2563EB' : '#1E293B'}", "color": "#F8FAFC" } },
+              { "type": "TouchWrapper", "onPress": [{ "type": "SendEvent", "arguments": ["select-profile", "sergio"] }], "item": { "type": "Text", "text": "Sergio", "paddingLeft": "10dp", "paddingRight": "10dp", "paddingTop": "6dp", "paddingBottom": "6dp", "borderRadius": "14dp", "backgroundColor": "${DS_Portfolio.profile.id == 'sergio' ? '#2563EB' : '#1E293B'}", "color": "#F8FAFC" } },
+              { "type": "TouchWrapper", "onPress": [{ "type": "SendEvent", "arguments": ["select-profile", "family"] }], "item": { "type": "Text", "text": "Família", "paddingLeft": "10dp", "paddingRight": "10dp", "paddingTop": "6dp", "paddingBottom": "6dp", "borderRadius": "14dp", "backgroundColor": "${DS_Portfolio.profile.id == 'family' ? '#2563EB' : '#1E293B'}", "color": "#F8FAFC" } }
+            ]
+          },
+          {
+            "type": "Container",
+            "paddingTop": "20dp",
+            "items": [
+              { "type": "Text", "text": "Patrimônio", "style": "textStyleSecondary", "color": "#94A3B8" },
+              { "type": "Text", "text": "${showValues ? DS_Portfolio.summary.patrimony : DS_Portfolio.summary.maskedPatrimony}", "style": "textStylePrimary1", "color": "#F8FAFC" },
+              { "type": "Text", "text": "${DS_Portfolio.resultLabel}", "style": "textStyleSecondary", "color": "#94A3B8" }
+            ]
+          },
+          {
+            "type": "Container",
+            "direction": "row",
+            "spacing": "12dp",
+            "paddingTop": "16dp",
+            "items": [
+              { "type": "Container", "width": "50%", "backgroundColor": "#172033", "padding": "12dp", "borderRadius": "12dp", "items": [{ "type": "Text", "text": "Resultado no mês", "style": "textStyleSecondary", "color": "#94A3B8" }, { "type": "Text", "text": "${showValues ? DS_Portfolio.summary.monthlyResult : DS_Portfolio.summary.maskedMonthlyResult}", "style": "textStylePrimary3", "color": "#F8FAFC" }] },
+              { "type": "Container", "width": "50%", "backgroundColor": "#172033", "padding": "12dp", "borderRadius": "12dp", "items": [{ "type": "Text", "text": "Proventos", "style": "textStyleSecondary", "color": "#94A3B8" }, { "type": "Text", "text": "${showValues ? DS_Portfolio.summary.income : DS_Portfolio.summary.maskedIncome}", "style": "textStylePrimary3", "color": "#F8FAFC" }] }
+            ]
+          },
+          {
+            "type": "TouchWrapper",
+            "paddingTop": "16dp",
+            "onPress": [{ "type": "SendEvent", "arguments": ["show-details", "${DS_Portfolio.profile.id}"] }],
+            "item": { "type": "Text", "text": "Ver detalhes ›", "color": "#93C5FD", "style": "textStylePrimary3" }
+          }
+        ]
+      }
+    ]
+  }
+}
