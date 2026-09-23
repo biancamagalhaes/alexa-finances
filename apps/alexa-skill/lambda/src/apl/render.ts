@@ -11,7 +11,15 @@ export function supportsApl(input: HandlerInput): boolean {
 }
 
 export function addPortfolioDocument(input: HandlerInput, portfolio: PortfolioView): void {
-  if (!supportsApl(input)) return;
+  const aplSupported = supportsApl(input);
+  const viewports = input.requestEnvelope.context.Viewports?.map((viewport) => viewport.id) ?? [];
+  console.info('APL render decision', {
+    aplSupported,
+    viewports,
+    profile: portfolio.profile.id
+  });
+
+  if (!aplSupported) return;
 
   input.responseBuilder.addDirective({
     type: 'Alexa.Presentation.APL.RenderDocument',
