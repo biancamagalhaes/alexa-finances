@@ -43,5 +43,5 @@ O arquivo `discloud.config` publica a API em `https://alexa-finances.discloud.ap
 na porta `8080`. Antes do deploy, registre o subdomínio `alexa-finances` na
 Discloud e configure por lá as variáveis de ambiente que estão no
 `apps/api/.env.example`. O iniciador de produção instala as dependências
-caso a plataforma ainda não as tenha preparado, mesmo sem `package-lock.json`.
+automaticamente pelo `package.json` e inicia com `npm run start:discloud`.
 Nunca envie o arquivo `.env`.
