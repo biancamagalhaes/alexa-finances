@@ -11,7 +11,10 @@ process.env.NODE_ENV ??= 'production';
 
 if (!existsSync(resolve(projectRoot, 'node_modules', 'tsx'))) {
   console.log(JSON.stringify({ event: 'discloud_dependencies_installing' }));
-  execFileSync('npm', ['ci', '--omit=dev'], { cwd: projectRoot, stdio: 'inherit' });
+  execFileSync('npm', ['install', '--omit=dev', '--no-package-lock', '--no-audit', '--no-fund'], {
+    cwd: projectRoot,
+    stdio: 'inherit',
+  });
 }
 
 const { register } = await import('tsx/esm/api');
