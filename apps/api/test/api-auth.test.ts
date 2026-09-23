@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { buildApp } from '../src/app.js';
-import { requireApiBearerToken } from '../src/lib/api-auth.js';
+import { requireApiBearerToken, validateBearerHeader } from '../src/lib/api-auth.js';
 
 const bearerToken = 'test-token-with-at-least-thirty-two-characters';
 
@@ -54,5 +54,19 @@ describe('API bearer authentication', () => {
     } finally {
       await app.close();
     }
+  });
+
+  it('classifies authentication failures without retaining the token value', () => {
+    const missing = validateBearerHeader(undefined, bearerToken);
+    const short = validateBearerHeader('Bearer short', bearerToken);
+    const incorrect = validateBearerHeader(`Bearer ${'x'.repeat(bearerToken.length)}`, bearerToken);
+
+    expect(missing).toEqual({ valid: false, reason: 'missing_or_malformed' });
+    expect(short).toEqual({ valid: false, reason: 'token_length_mismatch', providedTokenLength: 5 });
+    expect(incorrect).toEqual({
+      valid: false,
+      reason: 'token_mismatch',
+      providedTokenLength: bearerToken.length,
+    });
   });
 });

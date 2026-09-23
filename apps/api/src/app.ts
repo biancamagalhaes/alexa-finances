@@ -1,5 +1,5 @@
 import Fastify, { type FastifyInstance } from 'fastify';
-import { hasValidBearerToken, requireApiBearerToken } from './lib/api-auth.js';
+import { requireApiBearerToken, validateBearerToken } from './lib/api-auth.js';
 import {
   isTursoAuthTokenExpired,
   isTursoTokenExpiryError,
@@ -41,7 +41,17 @@ export function buildApp(options: { readonly apiBearerToken?: string; readonly t
   app.get('/health', async () => ({ status: 'ok' }));
   app.register(async (protectedApi) => {
     protectedApi.addHook('onRequest', async (request, reply) => {
-      if (hasValidBearerToken(request, apiBearerToken)) return;
+      const validation = validateBearerToken(request, apiBearerToken);
+      if (validation.valid) return;
+      request.log.warn({
+        event: 'api_auth_failed',
+        requestId: request.id,
+        method: request.method,
+        route: requestRoute(request),
+        reason: validation.reason,
+        expectedTokenLength: apiBearerToken.length,
+        providedTokenLength: validation.providedTokenLength,
+      }, 'API authentication failed');
       return reply
         .header('WWW-Authenticate', 'Bearer')
         .code(401)
